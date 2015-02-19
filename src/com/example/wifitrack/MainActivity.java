@@ -13,15 +13,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 	private WifiInfo wifiInfo = null; // The obtained Wifi information making
 	private WifiManager wifiManager = null; // The Wifi manager making
 	private Handler handler;
 	private ImageView wifi_image; // Signal picture making
 	private int level; // Signal strength value making
+	private Toast toast = null;
 
 	@SuppressLint("HandlerLeak")
 	@Override
@@ -78,12 +80,13 @@ public class MainActivity extends Activity {
 
 			}
 
-		}, 1000, 5000);
+		}, 1000, 3000);
 		// implementation using Handler between UI thread and Timer thread
 		// information transmission, every 5 seconds to tell UI thread wifiInto
 		// making
 		handler = new Handler() {
 
+			@SuppressWarnings("static-access")
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
@@ -92,57 +95,97 @@ public class MainActivity extends Activity {
 				// making
 				case 1:
 					wifi_image.setImageResource(R.drawable.wifi7);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + " bestes   Signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
+
 					break;
 				case 2:
 					wifi_image.setImageResource(R.drawable.wifi6);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + "   sehr gutes Signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
+
 					break;
 				case 3:
 					wifi_image.setImageResource(R.drawable.wifi5);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + "  gutes signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
+
 					break;
 				case 4:
 					wifi_image.setImageResource(R.drawable.wifi4);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + "   normales Signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
+
 					break;
 				case 5:
 					wifi_image.setImageResource(R.drawable.wifi3);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + "   mittleres Signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
+
 					break;
 				case 6:
 					wifi_image.setImageResource(R.drawable.wifi2);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + "schwaches signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
 
 					break;
 				case 7:
 					wifi_image.setImageResource(R.drawable.wifi1);
-					Toast.makeText(MainActivity.this,
+					toast.makeText(MainActivity.this,
 							"Signalstärke: " + level + "sehr schwaches signal",
-							Toast.LENGTH_SHORT).show();
+							toast.LENGTH_SHORT).show();
 
 					break;
-				case 8:
-					// Make provision against a rainy day making
+				default:
 					wifi_image.setImageResource(R.drawable.wifi0);
-					Toast.makeText(MainActivity.this, "kein Signal",
-							Toast.LENGTH_SHORT).show();
+					toast.makeText(MainActivity.this, "kein Signal",
+							toast.LENGTH_SHORT).show();
+
 				}
 			}
 
 		};
+		
+	
 
 	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+
+		super.onStop();
+		
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		getMenuInflater().inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+
+			closeActivity();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public void closeActivity() {
+		System.exit(0);
+		// this.finish();
+	}
+
 }
