@@ -161,6 +161,7 @@ public class MainActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 
 		super.onStop();
+		//handler.wait();
 		
 		
 	}
